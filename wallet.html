@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wallet</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1a1a40;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+        .container {
+            width: 320px;
+            background-color: #2d2d6f;
+            border-radius: 10px;
+            overflow: hidden;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            height: 90vh;
+            justify-content: space-between;
+        }
+        .balance {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #3d3d7f;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+        .balance img {
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+        }
+        .balance button {
+            background-color: #4e4ec1;
+            border: none;
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .transactions {
+            flex: 1;
+            margin-top: 20px;
+            background-color: #3d3d7f;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-y: auto;
+        }
+        .transactions h2 {
+            margin-top: 0;
+            text-align: center;
+        }
+        .transactions table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .transactions th, .transactions td {
+            padding: 10px;
+            text-align: left;
+        }
+        .transactions th {
+            background-color: #4e4ec1;
+        }
+        .transactions tr:nth-child(even) {
+            background-color: #2d2d6f;
+        }
+        .nav {
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            background-color: #2d2d6f;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        .nav-item {
+            text-align: center;
+        }
+        .nav-item a {
+            display: block;
+            color: #fff;
+            text-decoration: none;
+        }
+        .nav-item img {
+            width: 30px;
+            height: 30px;
+            filter: brightness(80%);
+            transition: filter 0.3s ease;
+        }
+        .nav-item img:hover {
+            filter: brightness(100%);
+        }
+        .nav-item span {
+            display: block;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div>
+            <div class="balance">
+                <div>
+                    <img src="https://cryptologos.cc/logos/tether-usdt-logo.png" alt="USDT">
+                    <span id="usdtBalance">0.00 USDT</span>
+                </div>
+                <button>Send</button>
+            </div>
+            <div class="balance">
+                <div>
+                    <img src="https://cryptologos.cc/logos/shiba-inu-shib-logo.png" alt="SHIB">
+                    <span id="shibBalance">0.00 SHIB</span>
+                </div>
+                <button>Send</button>
+            </div>
+            <div class="transactions">
+                <h2>Transactions History</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date Time</th>
+                            <th>Coin</th>
+                            <th>Sum</th>
+                            <th>Type</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="transactionHistory">
+                        <!-- Transaction rows will be appended here by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="nav">
+            <div class="nav-item">
+                <a href="index.html">
+                    <img src="https://img.icons8.com/ios-filled/50/ffffff/home.png" alt="Home">
+                    <span>Home</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="wallet.html">
+                    <img src="https://img.icons8.com/ios-filled/50/ffffff/wallet.png" alt="Wallet">
+                    <span>Wallet</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="friends.html">
+                    <img src="https://img.icons8.com/ios-filled/50/ffffff/friends.png" alt="Friends">
+                    <span>Friends</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="missions.html">
+                    <img src="https://img.icons8.com/ios-filled/50/ffffff/mission.png" alt="Missions">
+                    <span>Missions</span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Function to load transactions from localStorage and display them
+        function loadTransactions() {
+            const transactions = JSON.parse(localStorage.getItem('transactions')) || [];
+            const transactionHistory = document.getElementById('transactionHistory');
+
+            transactions.forEach(transaction => {
+                const row = document.createElement('tr');
+
+                const dateCell = document.createElement('td');
+                dateCell.textContent = transaction.dateTime;
+                row.appendChild(dateCell);
+
+                const coinCell = document.createElement('td');
+                coinCell.textContent = transaction.coin;
+                row.appendChild(coinCell);
+
+                const sumCell = document.createElement('td');
+                sumCell.textContent = transaction.sum;
+                row.appendChild(sumCell);
+
+                const typeCell = document.createElement('td');
+                typeCell.textContent = transaction.type;
+                row.appendChild(typeCell);
+
+                const statusCell = document.createElement('td');
+                statusCell.textContent = transaction.status;
+                row.appendChild(statusCell);
+
+                transactionHistory.appendChild(row);
+            });
+        }
+
+        // Load transactions when the page is loaded
+        window.onload = loadTransactions;
+    </script>
+</body>
+</html>

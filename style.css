@@ -1,0 +1,54 @@
+/* .main_page {  display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1.5fr 0.8fr 0.7fr;
+    grid-auto-columns: 1fr;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    grid-template-areas:
+      "trx_balace trx_balace trx_balace trx_balace"
+      "usdt_balance usdt_balance usdt_balance usdt_balance"
+      "main_farm main_farm main_farm main_farm"
+      "main_farm main_farm main_farm main_farm"
+      "claim_button claim_button boost_button boost_button"
+      "home_btn wallet_btn friend_btn missions_btn";
+  }
+  
+  .trx_balace { grid-area: trx_balace;
+    display: flex;
+    justify-content: space-around;
+
+
+    .tron_send_btn{
+        background-color: blue;
+        border-radius: 6px;
+        border-color: grey;
+        width: 10%;
+        border: 2px solid darkblue;
+        height: 50%;
+        font-weight: 500;
+        font-size: 20px;
+        color: white;
+
+        trx_balance_p{
+            font-size: 10px;
+            text-align: center;
+        }
+}
+}
+  
+  .usdt_balance { grid-area: usdt_balance; }
+  
+  .main_farm { grid-area: main_farm; }
+  
+  .claim_button { grid-area: claim_button; }
+  
+  .boost_button { grid-area: boost_button; }
+  
+  .home_btn { grid-area: home_btn; }
+  
+  .wallet_btn { grid-area: wallet_btn; }
+  
+  .friend_btn { grid-area: friend_btn; }
+  
+  .missions_btn { grid-area: missions_btn; }
+   */

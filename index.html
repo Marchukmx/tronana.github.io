@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tether Space App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1a1a40;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+        .container {
+            width: 320px;
+            background-color: #2d2d6f;
+            border-radius: 10px;
+            overflow: hidden;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            margin: 0 auto;
+        }
+        .balance {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #3d3d7f;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+        .balance div {
+            display: flex;
+            align-items: center;
+        }
+        .balance img {
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+        }
+        .balance button {
+            background-color: #fff;
+            border: none;
+            color: #000;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .fan-container {
+            text-align: center;
+            padding: 20px;
+            background-color: #3d3d7f;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            overflow: hidden; /* Hide overflow */
+        }
+        .fan-wrapper {
+            width: 150px;
+            height: 150px;
+            overflow: auto; /* Enable scroll if needed */
+        }
+        .fan {
+            width: 100%;
+            height: 100%;
+            animation: spin 5s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .stats {
+            text-align: center;
+            padding: 10px;
+        }
+        .actions {
+            display: flex;
+            justify-content: space-around;
+            padding: 20px;
+        }
+        .actions button {
+            background-color: #fff;
+            border: none;
+            color: #000;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 45%;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: #2d2d6f;
+            padding: 20px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 400px;
+        }
+        .modal-content input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .modal-content button {
+            background-color: #fff;
+            border: none;
+            color: #000;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .nav {
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            background-color: #2d2d6f;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        .nav-item {
+            text-align: center;
+        }
+        .nav-item a {
+            display: block;
+            color: #fff;
+            text-decoration: none;
+        }
+        .nav-item img {
+            width: 30px;
+            height: 30px;
+            filter: brightness(80%); /* Dim icons */
+            transition: filter 0.3s ease;
+        }
+        .nav-item img:hover {
+            filter: brightness(100%); /* Highlight on hover */
+        }
+        .nav-item span {
+            display: block;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="balance">
+            <div>
+                <img src="https://cryptologos.cc/logos/tether-usdt-logo.png" alt="USDT">
+                <span id="usdtBalance">0.00 USDT</span>
+            </div>
+            <button id="sendUSDTButton">Send</button>
+        </div>
+        <div class="balance">
+            <div>
+                <img src="https://cryptologos.cc/logos/shiba-inu-shib-logo.png" alt="SHIB">
+                <span id="shibBalance">0.00 SHIB</span>
+            </div>
+            <button id="sendSHIBButton">Send</button>
+        </div>
+        <div class="fan-container">
+            <div class="fan-wrapper">
+                <img src="assets/images/fan.jpg" alt="Fan" class="fan" id="fan">
+            </div>
+        </div>
+        <div class="stats">
+            <span id="usdtEarned">0.00 USDT</span>
+            <br>
+            <span>1.0 GH/s ⚡</span>
+        </div>
+        <div class="actions">
+            <button id="claimButton">Claim</button>
+            <button id="boostButton">Boost</button>
+        </div>
+        <div class="nav">
+            <div class="nav-item">
+                <a href="index.html">
+                    <img src="https://img.icons8.com/ios-filled/50/ffffff/home.png" alt="Home">
+                    <span>Home</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="wallet.html">
+                    <img src="https://img.icons8.com/ios-filled/50/ffffff/wallet.png" alt="Wallet">
+                    <span>Wallet</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="#" onclick="showAlert(); return false;">
+                    <img src="https://img.icons8.com/ios-filled/50/ffffff/friends.png" alt="Friends">
+                    <span>Friends</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="missions.html">
+                    <img src="https://img.icons8.com/ios-filled/50/ffffff/mission.png" alt="Missions">
+                    <span>Missions</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="sendUSDTModal">
+        <div class="modal-content">
+            <h3>Send USDT</h3>
+            <input type="text" id="usdtWalletAddress" placeholder="Wallet Address">
+            <input type="number" id="usdtSendAmount" placeholder="Amount">
+            <button id="usdtSendButton">Send</button>
+        </div>
+    </div>
+
+    <div class="modal" id="sendSHIBModal">
+        <div class="modal-content">
+            <h3>Send SHIB</h3>
+            <input type="text" id="shibWalletAddress" placeholder="Wallet Address">
+            <input type="number" id="shibSendAmount" placeholder="Amount">
+            <button id="shibSendButton">Send</button>
+        </div>
+    </div>
+
+    <script>
+        function showAlert() {
+            alert('This part of the bot is still developing');
+        }
+
+        let usdtEarned = parseFloat(localStorage.getItem('usdtEarned')) || 0;
+        let usdtBalance = parseFloat(localStorage.getItem('usdtBalance')) || 0;
+        const usdtEarnedDisplay = document.getElementById('usdtEarned');
+        const usdtBalanceDisplay = document.getElementById('usdtBalance');
+        const shibBalanceDisplay = document.getElementById('shibBalance');
+        const claimButton = document.getElementById('claimButton');
+        const boostButton = document.getElementById('boostButton');
+        const sendUSDTButton = document.getElementById('sendUSDTButton');
+        const sendSHIBButton = document.getElementById('sendSHIBButton');
+        const sendUSDTModal = document.getElementById('sendUSDTModal');
+        const sendSHIBModal = document.getElementById('sendSHIBModal');
+        const usdtSendButton = document.getElementById('usdtSendButton');
+        const shibSendButton = document.getElementById('shibSendButton');
+        const usdtWalletAddress = document.getElementById('usdtWalletAddress');
+        const usdtSendAmount = document.getElementById('usdtSendAmount');
+        const shibWalletAddress = document.getElementById('shibWalletAddress');
+        const shibSendAmount = document.getElementById('shibSendAmount');
+        const USDT_PER_SECOND = 0.000005;
+
+        function updateUSDT() {
+            const lastVisit = localStorage.getItem('lastVisit');
+            if (lastVisit) {
+                const elapsedTime = (Date.now() - parseInt(lastVisit)) / 1000; // in seconds
+                const usdtToAdd = elapsedTime * USDT_PER_SECOND;
+                usdtEarned += usdtToAdd;
+                usdtEarnedDisplay.textContent = usdtEarned.toFixed(6) + ' USDT';
+            }
+            localStorage.setItem('lastVisit', Date.now().toString());
+        }
+
+        updateUSDT();
+
+        setInterval(() => {
+            usdtEarned += USDT_PER_SECOND; // Earn USDT every second
+            usdtEarnedDisplay.textContent = usdtEarned.toFixed(6) + ' USDT';
+            localStorage.setItem('usdtEarned', usdtEarned); // Save the earned USDT
+        }, 1000);
+
+        // Load the saved balance
+        usdtBalanceDisplay.textContent = usdtBalance.toFixed(2) + ' USDT';
+
+        claimButton.addEventListener('click', () => {
+            if (usdtEarned >= 1) {
+                usdtBalance += usdtEarned;
+                usdtBalanceDisplay.textContent = usdtBalance.toFixed(2) + ' USDT';
+                usdtEarned = 0;
+                usdtEarnedDisplay.textContent = usdtEarned.toFixed(6) + ' USDT';
+                localStorage.setItem('usdtEarned', usdtEarned); // Reset the earned USDT
+                localStorage.setItem('usdtBalance', usdtBalance); // Save the new balance
+            } else {
+                alert('Minimum withdrawal is 1 USDT.');
+            }
+        });
+
+        boostButton.addEventListener('click', () => {
+            window.location.href = 'boost.html';
+        });
+
+        sendUSDTButton.addEventListener('click', () => {
+            sendUSDTModal.style.display = 'flex';
+        });
+
+        sendSHIBButton.addEventListener('click', () => {
+            sendSHIBModal.style.display = 'flex';
+        });
+
+        usdtSendButton.addEventListener('click', () => {
+            const address = usdtWalletAddress.value;
+            const amount = parseFloat(usdtSendAmount.value);
+            if (address && amount > 0) {
+                alert(`Sending ${amount} USDT to ${address}`);
+                sendUSDTModal.style.display = 'none';
+            } else {
+                alert('Please enter a valid address and amount.');
+            }
+        });
+
+        shibSendButton.addEventListener('click', () => {
+            const address = shibWalletAddress.value;
+            const amount = parseFloat(shibSendAmount.value);
+            if (address && amount > 0) {
+                alert(`Sending ${amount} SHIB to ${address}`);
+                sendSHIBModal.style.display = 'none';
+            } else {
+                alert('Please enter a valid address and amount.');
+            }
+        });
+
+        window.addEventListener('click', (event) => {
+            if (event.target === sendUSDTModal) {
+                sendUSDTModal.style.display = 'none';
+            }
+            if (event.target === sendSHIBModal) {
+                sendSHIBModal.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

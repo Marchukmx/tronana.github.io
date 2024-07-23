@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Missions</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1a1a40;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+        .container {
+            width: 80%;
+            max-width: 800px;
+            background-color: #2d2d6f;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            margin: 0 auto;
+        }
+        .mission {
+            background-color: #3d3d7f;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .mission button {
+            background-color: #fff;
+            border: none;
+            color: #000;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .mission button:hover {
+            background-color: #f0f0f0;
+        }
+        .nav {
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            background-color: #2d2d6f;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        .nav-item {
+            text-align: center;
+        }
+        .nav-item a {
+            display: block;
+            color: #fff;
+            text-decoration: none;
+        }
+        .nav-item img {
+            width: 30px;
+            height: 30px;
+            filter: brightness(80%);
+            transition: filter 0.3s ease;
+        }
+        .nav-item img:hover {
+            filter: brightness(100%);
+        }
+        .nav-item span {
+            display: block;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="mission">
+            <h2>Mission 1: Claim Welcome Bonus</h2>
+            <p>Claim a welcome bonus of 10,000 SHIB by clicking the button below.</p>
+            <button id="claimBonusButton">Claim</button>
+        </div>
+
+        <div class="mission">
+            <h2>Mission 2: Subscribe to Channel</h2>
+            <p>Subscribe to our channel to receive 10,000 SHIB.</p>
+            <button id="subscribeButton">Subscribe</button>
+        </div>
+
+        <div class="mission">
+            <h2>Mission 3: Make a First Boost</h2>
+            <p>Complete your first boost to receive 100,000 SHIB.</p>
+            <button id="boostButton">Boost</button>
+        </div>
+
+        <!-- Placeholder for future missions -->
+        <div class="mission">
+            <h2>Future Missions</h2>
+            <p>Stay tuned for more exciting missions!</p>
+        </div>
+
+        <!-- Navigation buttons -->
+        <div class="nav">
+            <div class="nav-item">
+                <a href="index.html">
+                    <img src="https://img.icons8.com/ios-filled/50/ffffff/home.png" alt="Home">
+                    <span>Home</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="wallet.html">
+                    <img src="https://img.icons8.com/ios-filled/50/ffffff/wallet.png" alt="Wallet">
+                    <span>Wallet</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="#" onclick="showAlert(); return false;">
+                    <img src="https://img.icons8.com/ios-filled/50/ffffff/friends.png" alt="Friends">
+                    <span>Friends</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="boost.html">
+                    <img src="https://img.icons8.com/ios-filled/50/ffffff/mission.png" alt="Missions">
+                    <span>Missions</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showAlert() {
+            alert('This part of the bot is still developing');
+        }
+
+        const claimBonusButton = document.getElementById('claimBonusButton');
+        const subscribeButton = document.getElementById('subscribeButton');
+        const boostButton = document.getElementById('boostButton');
+        const SHIB_PER_TASK = {
+            claimBonus: 10000,
+            subscribe: 10000,
+            boost: 100000
+        };
+
+        // Update the balance with SHIB
+        function updateBalance(amount) {
+            let shibBalance = parseFloat(localStorage.getItem('shibBalance')) || 0;
+            shibBalance += amount;
+            localStorage.setItem('shibBalance', shibBalance);
+        }
+
+        // Notify user about SHIB crediting
+        function notifySHIBCredit(amount) {
+            alert(`You have received ${amount} SHIB! It will be credited to your balance shortly.`);
+        }
+
+        // Handle Claim Bonus
+        claimBonusButton.addEventListener('click', () => {
+            updateBalance(SHIB_PER_TASK.claimBonus);
+            notifySHIBCredit(SHIB_PER_TASK.claimBonus);
+        });
+
+        // Handle Subscribe
+        subscribeButton.addEventListener('click', () => {
+            window.location.href = 'https://t.me/tronanaapp';
+            updateBalance(SHIB_PER_TASK.subscribe);
+            notifySHIBCredit(SHIB_PER_TASK.subscribe);
+        });
+
+        // Handle Boost
+        boostButton.addEventListener('click', () => {
+            window.location.href = 'boost.html';
+        });
+    </script>
+</body>
+</html>

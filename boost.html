@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boost Your Mining</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1a1a40;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+        .container {
+            width: 320px;
+            background-color: #2d2d6f;
+            border-radius: 10px;
+            overflow: hidden;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+        .blurred {
+            filter: blur(5px);
+            transition: filter 0.3s ease;
+        }
+        .visible {
+            filter: none;
+        }
+        .address {
+            cursor: pointer;
+            word-break: break-all;
+            display: inline-block;
+            padding: 10px;
+            background-color: #3d3d7f;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .address:hover {
+            background-color: #4e4ec1;
+        }
+        .boost-input {
+            margin: 20px 0;
+        }
+        .boost-input input {
+            width: calc(100% - 20px);
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .boost-input button {
+            background-color: #4e4ec1;
+            border: none;
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .boost-input button:hover {
+            background-color: #3d3d7f;
+        }
+        .profit-calculator {
+            margin-top: 20px;
+            color: #fff;
+        }
+        .home-button {
+            margin-top: 20px;
+            background-color: #4e4ec1;
+            border: none;
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .home-button:hover {
+            background-color: #3d3d7f;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Boost Your Mining</h1>
+        <div id="boostInfo" class="blurred">
+            <p>To increase your mining speed you need to make an investment.</p>
+            <p>The minimum deposit for Boost - 20 USDT</p>
+            <p class="address" id="boostAddress" onclick="copyAddress()">TUTvm9dwLmZEGgjcffxPKwBQ3TiAjBCj4Y</p>
+            <p>Wallet address - trc20</p>
+            <p>Click on to copy it</p>
+        </div>
+        <div class="boost-input">
+            <input type="number" id="investmentAmount" placeholder="Enter investment amount in USDT" min="20" step="0.01">
+            <button id="boostNowButton">Boost Now</button>
+        </div>
+        <div class="profit-calculator" id="profitCalculator">
+            <p>Total monthly income: <span id="monthlyIncome">0.00</span> USDT</p>
+            <p>Per day income: <span id="dailyIncome">0.00</span> USDT</p>
+        </div>
+        <button class="home-button" onclick="goHome()">Home</button>
+    </div>
+
+    <script>
+        const boostInfo = document.getElementById('boostInfo');
+        const investmentAmountInput = document.getElementById('investmentAmount');
+        const boostNowButton = document.getElementById('boostNowButton');
+        const monthlyIncomeDisplay = document.getElementById('monthlyIncome');
+        const dailyIncomeDisplay = document.getElementById('dailyIncome');
+
+        function calculateIncome(investmentAmount) {
+            const monthlyIncomePercentage = 221; // 221% of investment amount
+            const monthlyIncome = (investmentAmount * monthlyIncomePercentage / 100).toFixed(2);
+            const dailyIncome = (monthlyIncome / 30).toFixed(2);
+            return { monthlyIncome, dailyIncome };
+        }
+
+        boostNowButton.addEventListener('click', () => {
+            if (boostInfo.classList.contains('blurred')) {
+                boostInfo.classList.remove('blurred');
+                boostInfo.classList.add('visible');
+            }
+        });
+
+        function copyAddress() {
+            const address = document.getElementById('boostAddress').textContent;
+            navigator.clipboard.writeText(address).then(() => {
+                alert('Address copied to clipboard!');
+            }).catch(err => {
+                alert('Failed to copy address.');
+            });
+        }
+
+        investmentAmountInput.addEventListener('input', () => {
+            const investmentAmount = parseFloat(investmentAmountInput.value);
+            if (!isNaN(investmentAmount) && investmentAmount >= 20) {
+                const { monthlyIncome, dailyIncome } = calculateIncome(investmentAmount);
+                monthlyIncomeDisplay.textContent = monthlyIncome;
+                dailyIncomeDisplay.textContent = dailyIncome;
+            } else {
+                monthlyIncomeDisplay.textContent = '0.00';
+                dailyIncomeDisplay.textContent = '0.00';
+            }
+        });
+
+        function goHome() {
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>
